@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz San Valentín</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffccd5, #ffebf0);
+            text-align: center;
+            font-family: 'Pacifico', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        h1 {
+            color: #d63384;
+            font-size: 40px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .gif-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .gif-container img {
+            width: 300px;
+            height: auto;
+        }
+        .heart-side {
+            font-size: 50px;
+            color: red;
+            margin: 0 20px;
+            animation: heartbeat 1s infinite alternate;
+        }
+        @keyframes heartbeat {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.2);
+            }
+        }
+        .choice-buttons {
+            margin-top: 20px;
+        }
+        .choice-buttons button {
+            padding: 12px 24px;
+            font-size: 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+            font-family: 'Pacifico', cursive;
+        }
+        .choice-buttons button:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+        .choice-buttons button:active {
+            transform: scale(0.9);
+        }
+        .yes-button {
+            background-color: #28a745;
+            color: white;
+        }
+        .no-button {
+            background-color: #dc3545;
+            color: white;
+        }
+        #response {
+            font-size: 24px;
+            color: #d63384;
+            margin-top: 20px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+        }
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            color: red;
+            animation: floatUp 4s linear infinite;
+        }
+        @keyframes floatUp {
+            from {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
+        }
+    </style>
+    <script>
+        let saidYes = false;
+        let noMessages = [
+            "¿Estás segura? 😢", 
+            "Piénsalo bien... 💭", 
+            "¿Tal vez sí? 🥺", 
+            "Vamos, di que sí 😘", 
+            "¡No te arrepientas! 💔", 
+            "¡Última oportunidad! 💡"
+        ];
+        let noClickCount = 0;
+
+        function handleYesClick() {
+            let responseText = document.getElementById('response');
+            let gifImage = document.getElementById('gifImage');
+            if (saidYes) {
+                responseText.innerText = "¡Sabia que querias ser mi San Valentin 💞";
+                createFloatingHearts();
+            } else {
+                responseText.innerText = "¡Sabía que dirías que sí My Love! 💖";
+                saidYes = true;
+                gifImage.src = "https://i.pinimg.com/originals/e4/9d/7b/e49d7b7e965f09e31b498314b02e3662.gif";
+                createFloatingHearts();
+            }
+        }
+        
+        function handleNoClick() {
+            let responseText = document.getElementById('response');
+            let gifImage = document.getElementById('gifImage');
+            if (saidYes) {
+                responseText.innerText = "¡Ya dijiste que sí! No hay vuelta atrás 💞";
+            } else {
+                responseText.innerText = noMessages[noClickCount % noMessages.length];
+                gifImage.src = "https://media.tenor.com/ivKWdfdbV3EAAAAi/goma-goma-cat.gif";
+                noClickCount++;
+            }
+        }
+
+        function createFloatingHearts() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>💖 ¿Quieres ser mi San Valentín? 💖</h1>
+    <div class="gif-container">
+        <span class="heart-side">❤️</span>
+        <img id="gifImage" src="https://i.pinimg.com/originals/e4/9d/7b/e49d7b7e965f09e31b498314b02e3662.gif" alt="San Valentín GIF">
+        <span class="heart-side">❤️</span>
+    </div>
+    <div class="choice-buttons">
+        <button class="yes-button" onclick="handleYesClick()">Sí</button>
+        <button class="no-button" onclick="handleNoClick()">No</button>
+    </div>
+    <p id="response"></p>
+</body>
+</html>
